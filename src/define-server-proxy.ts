@@ -73,7 +73,7 @@ const configure = (proxy: HttpProxy.Server, options: ProxyOptions) => {
  *   // 命中所有/dev开头的url
  *   '/dev': {
  *     // 代理的目标服务器
- *     target: 'http:192.168.1.114:6666',
+ *     target: 'http://192.168.1.114:6666',
  *     // 到目标服务器后移除/dev前缀
  *     rewrite: path => path.replace(/^\/dev/, '')
  *   }
