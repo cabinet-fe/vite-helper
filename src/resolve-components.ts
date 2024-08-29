@@ -1,5 +1,4 @@
-import { kebabCase } from 'cat-kit/be'
-import { existsSync } from 'node:fs'
+import { kebabCase, existModule } from 'cat-kit/be'
 
 interface Options {
   /**
@@ -10,9 +9,12 @@ interface Options {
   /** 指定从哪个库(包)导入 */
   lib: 'ultra-ui' | '@meta/components' | string
   /**
-   * 样式文件入口
+   * 样式副作用导入
+   * @param kebabName 组件的烤串命名(kebab-name)
+   * @param lib 库
+   * @returns
    */
-  sideEffects: (kebabName: string) => string
+  sideEffects: (kebabName: string, lib: string) => string | undefined
 }
 
 interface ComponentInfo {
@@ -41,16 +43,48 @@ export function autoResolveComponent(
         from: lib
       }
 
-      const stylePath = sideEffects(kebabName)
+      const styleModuleId = sideEffects(kebabName, lib)
 
-      const styleExist = existsSync(stylePath)
-
-      if (styleExist) {
-        info.sideEffects = stylePath
+      if (styleModuleId) {
+        info.sideEffects = styleModuleId
       }
+
       return info
     }
   }
 
   return resolver
 }
+
+export const UltraUIResolver = autoResolveComponent({
+  prefix: 'U',
+  lib: 'ultra-ui',
+  sideEffects(kebabName, lib) {
+    let moduleId = `${lib}/components/${kebabName}/style.js`
+
+    while (!existModule(moduleId)) {
+      const preKebabName = kebabName
+      kebabName = kebabName.replace(/-[a-z]$/, '')
+      if (preKebabName === kebabName) return
+      moduleId = `${lib}/components/${kebabName}/style.js`
+    }
+
+    return moduleId
+  }
+})
+export const MetaComponentsResolver = autoResolveComponent({
+  prefix: 'M',
+  lib: '@meta/components',
+  sideEffects(kebabName, lib) {
+    let moduleId = `${lib}/${kebabName}/style.js`
+
+    while (!existModule(moduleId)) {
+      const preKebabName = kebabName
+      kebabName = kebabName.replace(/-[a-z]$/, '')
+      if (preKebabName === kebabName) return
+      moduleId = `${lib}/${kebabName}/style.js`
+    }
+
+    return moduleId
+  }
+})
