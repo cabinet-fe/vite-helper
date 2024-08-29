@@ -72,6 +72,7 @@ export const UltraUIResolver = autoResolveComponent({
     return moduleId
   }
 })
+
 export const MetaComponentsResolver = autoResolveComponent({
   prefix: 'M',
   lib: '@meta/components',
