@@ -12,7 +12,7 @@ const methodColorDict = {
   PATCH: 'yellow'
 } as const
 
-const map = new WeakMap()
+const map = new WeakMap<any, number>()
 
 const configure = (proxy: HttpProxy.Server, options: ProxyOptions) => {
   proxy.on('proxyRes', (proxyRes, req, res) => {
@@ -22,7 +22,7 @@ const configure = (proxy: HttpProxy.Server, options: ProxyOptions) => {
     const method = pc[methodColor](req.method)
 
     const resTime = date()
-    const reqTime = map.get(req)
+    const reqTime = map.get(req)!
 
     const duration = resTime.timestamp - reqTime
 
