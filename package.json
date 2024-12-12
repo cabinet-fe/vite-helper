@@ -2,7 +2,7 @@
   "name": "vite-helper",
   "module": "src/index.ts",
   "type": "module",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Yuan He Team FE",
   "license": "MIT",
   "scripts": {
@@ -17,12 +17,12 @@
     "rollup": "4.21.1",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "6.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-commonjs": "^26.0.1"
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-commonjs": "^26.0.3"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0",
+    "typescript": "^5.5.4",
     "vite": "5.4.2",
-    "cat-kit": "3.6.10"
+    "cat-kit": "3.7.10"
   }
 }
