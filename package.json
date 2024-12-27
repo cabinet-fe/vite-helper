@@ -2,7 +2,7 @@
   "name": "vite-helper",
   "module": "src/index.ts",
   "type": "module",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "author": "Yuan He Team FE",
   "license": "MIT",
   "scripts": {

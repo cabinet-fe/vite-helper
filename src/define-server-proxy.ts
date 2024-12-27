@@ -1,6 +1,6 @@
 import type { HttpProxy, ProxyOptions } from 'vite'
 import pc from 'picocolors'
-import { date, n } from 'cat-kit/be'
+import { date, n, str } from 'cat-kit/be'
 
 type APIProxy = Record<string, string | ProxyOptions>
 
@@ -16,7 +16,11 @@ const map = new WeakMap<any, number>()
 
 const configure = (proxy: HttpProxy.Server, options: ProxyOptions) => {
   proxy.on('proxyRes', (proxyRes, req, res) => {
-    const url = options.target + (req.url ?? '')
+    const target =
+      typeof options.target === 'string'
+        ? options.target
+        : options.target!.host!
+    const url = str.joinPath(target, req.url ?? '')
     const methodColor =
       methodColorDict[req.method as keyof typeof methodColorDict]
     const method = pc[methodColor](req.method)
